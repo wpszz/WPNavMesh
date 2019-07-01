@@ -53,7 +53,7 @@ namespace WP
                     neighborEdges.Add(polyNode.neighborEdges[j]);
                 }
             }
-            return MiniJSON.Json.Serialize(roots);
+            return MiniJSON.Json.Serialize(roots, false);
         }
 
         public static NavMesh Deserialize(string json)
