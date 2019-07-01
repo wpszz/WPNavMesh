@@ -4,6 +4,8 @@ namespace WP
 {
     public class PolyNode
     {
+        public int index;
+
         public Vector2[] vertexs;
         public Vector2 center;
         public PolyNode[] neighbors;
