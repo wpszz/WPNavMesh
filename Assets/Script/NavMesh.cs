@@ -88,7 +88,8 @@ namespace WP
                         Gizmos.DrawCube(new Vector3(testPath[i].x, testHeight, testPath[i].y), new Vector3(0.2f, 1f, 0.2f));
                         if (i + 1 < testPath.Length)
                         {
-                            Gizmos.DrawLine(new Vector3(testPath[i].x, testHeight, testPath[i].y), new Vector3(testPath[i + 1].x, testHeight, testPath[i + 1].y));
+                            Gizmos.DrawLine(new Vector3(testPath[i].x, testHeight + 0.1f, testPath[i].y), 
+                                new Vector3(testPath[i + 1].x, testHeight + 0.1f, testPath[i + 1].y));
                         }
                     }
                 }

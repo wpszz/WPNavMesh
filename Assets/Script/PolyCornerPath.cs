@@ -13,6 +13,8 @@ namespace WP
             PolyNode prev = origin;
             PolyNode current = prev.parent;
             PolyNode next = null;
+            PolyNode nodeP1 = origin;
+            PolyNode nodeP2 = origin;
             Vector2 p0 = endPos2D;
             Vector2 p1 = Vector2.zero;
             Vector2 p2 = Vector2.zero;
@@ -47,6 +49,7 @@ namespace WP
                             // p1 is the next corner
                             path.Add(p0);
                             p0 = p1;
+                            origin = nodeP1;
                         }
 
                         if (!flag2)
@@ -54,10 +57,10 @@ namespace WP
                             // p2 is the next corner
                             path.Add(p0);
                             p0 = p2;
+                            origin = nodeP2;
                         }
 
                         //reset vector checking from current node
-                        origin = origin.parent;
                         prev = origin;
                         current = prev.parent;
                         e2 = current.neighborEdges[prev.parentEdge];
@@ -82,12 +85,14 @@ namespace WP
                     {
                         // p3 is inside of the ∠p0_p1_p2
                         p1 = p3;
+                        nodeP1 = current;
                     }
 
                     if (flag3 && flag4)
                     {
                         // p4 is inside of the ∠p0_p1_p2
                         p2 = p4;
+                        nodeP2 = current;
                     }
 
                     if (!flag2 && !flag4)
@@ -95,6 +100,7 @@ namespace WP
                         // p2 is the next corner
                         path.Add(p0);
                         p0 = p2;
+                        origin = nodeP2;
                     }
 
                     if (!flag1 && !flag3)
@@ -102,12 +108,13 @@ namespace WP
                         // p1 is the next corner
                         path.Add(p0);
                         p0 = p1;
+                        origin = nodeP1;
                     }
 
                     if (!flag2 && !flag4 || !flag1 && !flag3)
                     {
                         // reset vector checking from current node
-                        origin = prev;
+                        prev = origin;
                         current = prev.parent;
                         e2 = current.neighborEdges[prev.parentEdge];
                         e1 = e2 + 1 >= current.vertexs.Length ? 0 : e2 + 1;
