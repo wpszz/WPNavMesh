@@ -13,8 +13,8 @@ namespace WP
             PolyNode prev = origin;
             PolyNode current = prev.parent;
             PolyNode next = null;
-            PolyNode nodeP1 = origin;
-            PolyNode nodeP2 = origin;
+            PolyNode nodeP1 = current;
+            PolyNode nodeP2 = current;
             Vector2 p0 = endPos2D;
             Vector2 p1 = Vector2.zero;
             Vector2 p2 = Vector2.zero;
@@ -63,6 +63,11 @@ namespace WP
                         //reset vector checking from current node
                         prev = origin;
                         current = prev.parent;
+                        if (current == null)
+                        {
+                            // origin is the last node
+                            break;
+                        }
                         e2 = current.neighborEdges[prev.parentEdge];
                         e1 = e2 + 1 >= current.vertexs.Length ? 0 : e2 + 1;
                         p1 = current.vertexs[e1];

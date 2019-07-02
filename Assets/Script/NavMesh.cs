@@ -7,6 +7,33 @@ namespace WP
     {
         public PolyNode[] polyNodes;
 
+        public bool FindPath2D(Vector2 startPos, Vector2 endPos, List<Vector2> path)
+        {
+            var startIndex = this.GetInsidePolyIndex(startPos);
+            if (startIndex < 0)
+                return false;
+            var endIndex = this.GetInsidePolyIndex(endPos);
+            if (endIndex < 0)
+                return false;
+
+            var nodeStart = this.polyNodes[startIndex];
+            var nodeEnd = this.polyNodes[endIndex];
+
+            if (!PolyAStar.FindPath(nodeStart, nodeEnd, this.polyNodes))
+                return false;
+
+            PolyCornerPath.FindPath2D(startPos, endPos, nodeEnd, path);
+            return true;
+        }
+
+        public Vector2[] FindPath2D(Vector2 startPos, Vector2 endPos)
+        {
+            List<Vector2> path = new List<Vector2>();
+            if (!FindPath2D(startPos, endPos, path))
+                return null;
+            return path.ToArray();
+        }
+
         public int GetInsidePolyIndex(Vector2 p)
         {
             int polyCount = polyNodes.Length;
