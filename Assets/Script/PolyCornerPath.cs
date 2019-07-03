@@ -68,6 +68,8 @@ namespace WP
                             // origin is the last node
                             break;
                         }
+                        nodeP1 = current;
+                        nodeP2 = current;
                         e2 = current.neighborEdges[prev.parentEdge];
                         e1 = e2 + 1 >= current.vertexs.Length ? 0 : e2 + 1;
                         p1 = current.vertexs[e1];
@@ -121,6 +123,8 @@ namespace WP
                         // reset vector checking from current node
                         prev = origin;
                         current = prev.parent;
+                        nodeP1 = current;
+                        nodeP2 = current;
                         e2 = current.neighborEdges[prev.parentEdge];
                         e1 = e2 + 1 >= current.vertexs.Length ? 0 : e2 + 1;
                         p1 = current.vertexs[e1];
