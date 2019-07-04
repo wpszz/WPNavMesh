@@ -92,14 +92,14 @@ namespace WP
                     {
                         // p3 is inside of the ∠p0_p1_p2
                         p1 = p3;
-                        nodeP1 = current;
+                        nodeP1 = next;
                     }
 
                     if (flag3 && flag4)
                     {
                         // p4 is inside of the ∠p0_p1_p2
                         p2 = p4;
-                        nodeP2 = current;
+                        nodeP2 = next;
                     }
 
                     if (!flag2 && !flag4)

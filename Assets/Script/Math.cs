@@ -13,7 +13,7 @@ namespace WP
         public static bool IsClockwiseMargin2D(Vector2 p1, Vector2 p2, Vector2 p3)
         {
             // check cross sign
-            return CrossMagnitude2D(p1, p2, p3) <= 0;
+            return CrossMagnitude2D(p1, p2, p3) <= float.Epsilon;
         }
 
         public static bool IsConvexPoly(Vector2[] vertexs)
