@@ -45,6 +45,65 @@ namespace WP
             return -1;
         }
 
+        public float FindClosestEdge2D(Vector2 pos, out Vector2 hit)
+        {
+            hit = new Vector2();
+            int polyCount = polyNodes.Length;
+            float min = float.MaxValue;
+            PolyNode node = null;
+            float tmpMin;
+            PolyNode tmpNode;
+            for (int i = 0; i < polyCount; i++)
+            {
+                tmpNode = polyNodes[i];
+                tmpMin = Vector2.Distance(pos, tmpNode.center);
+                if (tmpMin < min)
+                {
+                    min = tmpMin;
+                    node = tmpNode;
+                }
+            }
+
+            min = float.MaxValue;
+            int vertCount = node.vertexs.Length;
+            Vector2 tmpHit;
+            Vector2 tmpDir;
+            for (int i = 0; i < vertCount; i++)
+            {
+                int j = i + 1;
+                if (j >= vertCount)
+                    j = 0;
+
+                if (Math.CalculateSegmentIntersect2D(pos, node.center, node.vertexs[i], node.vertexs[j], out tmpHit))
+                {
+                    tmpMin = Vector2.Distance(node.center, tmpHit);
+                    if (tmpMin <= float.Epsilon)
+                    {
+                        // overlap with center
+                        min = 0f;
+                        break;
+                    }
+
+                    // move to center slightly
+                    tmpDir = node.center - tmpHit;
+                    tmpDir /= tmpMin;
+                    tmpHit += tmpDir * 0.001f;
+
+                    if (Math.IsInsideConvexPoly(tmpHit, node.vertexs))
+                    {
+                        tmpMin = Vector2.Distance(pos, tmpHit);
+                        if (tmpMin < min)
+                        {
+                            min = tmpMin;
+                            hit = tmpHit;
+                        }
+                    }
+                }
+            }
+
+            return min;
+        }
+
         //=======================================================
 
         public static string Serialize(NavMesh navMesh)

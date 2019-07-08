@@ -24,6 +24,11 @@ namespace WP
         private PolyNode testPathNodeEnd;
         private Vector2[] testPath;
 
+        private Vector2 testStartClosest;
+        private Vector2 testEndClosest;
+        private float testStartClosestDis;
+        private float testEndClosestDis;
+
         void Start()
         {
             InitNavMesh();
@@ -98,6 +103,17 @@ namespace WP
                         }
                     }
                 }
+
+                if (testStartClosestDis > 0)
+                {
+                    Gizmos.color = Color.yellow;
+                    Gizmos.DrawCube(new Vector3(testStartClosest.x, showHeight + 0.1f, testStartClosest.y), new Vector3(0.2f, 10, 0.2f));
+                }
+                if (testEndClosestDis > 0)
+                {
+                    Gizmos.color = Color.magenta;
+                    Gizmos.DrawCube(new Vector3(testEndClosest.x, showHeight + 0.1f, testEndClosest.y), new Vector3(0.2f, 10, 0.2f));
+                }
             }
         }
 
@@ -130,15 +146,23 @@ namespace WP
         {
             testPathNodeEnd = null;
             testPath = null;
+            testStartClosestDis = -1;
+            testEndClosestDis = -1;
 
             Vector2 startPos2D = new Vector2(startPos.x, startPos.z);
             Vector2 endPos2D = new Vector2(endPos.x, endPos.z);
 
             int startIndex = navMesh.GetInsidePolyIndex(startPos2D);
             if (startIndex < 0)
-                return;
+            {
+                testStartClosestDis = navMesh.FindClosestEdge2D(startPos2D, out testStartClosest);
+            }
             int endIndex = navMesh.GetInsidePolyIndex(endPos2D);
             if (endIndex < 0)
+            {
+                testEndClosestDis = navMesh.FindClosestEdge2D(endPos2D, out testEndClosest);
+            }
+            if (testStartClosestDis > 0 || testEndClosestDis > 0)
                 return;
 
             PolyNode nodeStart = navMesh.polyNodes[startIndex];

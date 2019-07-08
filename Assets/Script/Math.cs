@@ -33,10 +33,10 @@ namespace WP
         public static bool IsInsideConvexPoly(Vector2 p, Vector2[] vertexs)
         {
             int len = vertexs.Length;
-            bool flag = IsClockwise2D(vertexs[len - 1], vertexs[0], p);
+            bool flag = IsClockwiseMargin2D(vertexs[len - 1], vertexs[0], p);
             for (int i = 1; i < len; i++)
             {
-                if (IsClockwise2D(vertexs[i - 1], vertexs[i], p) != flag)
+                if (IsClockwiseMargin2D(vertexs[i - 1], vertexs[i], p) != flag)
                     return false;
             }
             return true;
