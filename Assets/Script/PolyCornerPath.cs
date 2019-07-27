@@ -113,8 +113,9 @@ namespace WP
                         origin = nodeP2;
                         findCorner = true;
                     }
-                    else if (!flag1 && !flag3)
+                    else if (!flag1 && !flag3 || flag1 && flag2 && !flag3)
                     {
+                        // flag1 && flag2 && !flag3 is the especial case
                         // p1 is the next corner
                         path.Add(p0);
                         p0 = p1;
