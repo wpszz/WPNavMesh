@@ -22,6 +22,7 @@ namespace WP
             Vector2 p4 = Vector2.zero;
             int e1, e2, e3, e4;
             bool flag1, flag2, flag3, flag4;
+            bool findCorner = false;
 
             if (current != null)
             {
@@ -51,8 +52,7 @@ namespace WP
                             p0 = p1;
                             origin = nodeP1;
                         }
-
-                        if (!flag2)
+                        else if (!flag2)
                         {
                             // p2 is the next corner
                             path.Add(p0);
@@ -102,27 +102,36 @@ namespace WP
                         nodeP2 = next;
                     }
 
-                    if (!flag2 && !flag4)
+                    findCorner = false;
+
+                    if (!flag2 && !flag4 || flag1 && !flag2 && flag3)
                     {
+                        // flag1 && !flag2 && flag3 is the especial case
                         // p2 is the next corner
                         path.Add(p0);
                         p0 = p2;
                         origin = nodeP2;
+                        findCorner = true;
                     }
-
-                    if (!flag1 && !flag3)
+                    else if (!flag1 && !flag3)
                     {
                         // p1 is the next corner
                         path.Add(p0);
                         p0 = p1;
                         origin = nodeP1;
+                        findCorner = true;
                     }
 
-                    if (!flag2 && !flag4 || !flag1 && !flag3)
+                    if (findCorner)
                     {
                         // reset vector checking from current node
                         prev = origin;
                         current = prev.parent;
+                        if (current == null)
+                        {
+                            // origin is the last node
+                            break;
+                        }
                         nodeP1 = current;
                         nodeP2 = current;
                         e2 = current.neighborEdges[prev.parentEdge];
